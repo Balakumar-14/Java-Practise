@@ -1,0 +1,53 @@
+import java.util.Scanner;
+import java.util.ArrayList;
+public class MyClass {
+    public static class book{
+        String title;
+        int pages, year;
+        public book(String title, int pages, int year){
+            this.title=title;
+            this.pages=pages;
+            this.year=year;
+        }
+        public String toString(){
+            return "title: "+ this.title+" , pages: "+this.pages+" , year: "+this.year;
+        }
+    }
+    public static void main(String[] args){
+        Scanner read = new Scanner(System.in);
+        ArrayList<book> books = new ArrayList<>();
+        String title;
+        int pages,year;
+        while(true){
+            System.out.print("Title:");
+            title=read.nextLine();
+            if(title.equals("")) break;
+            System.out.println();
+            System.out.print("Pages");
+            pages=Integer.valueOf(read.nextLine());
+            System.out.println();
+            System.out.print("Publication year:");
+            year=Integer.valueOf(read.nextLine());
+            System.out.println();
+            books.add(new book(title,pages,year));
+        }
+        String check;
+            System.out.print("What information will be printed? ");
+            check=read.nextLine();
+            System.out.println();
+            if(check.equals("everything")){
+                for(book i:books) System.out.println(i);
+            }
+            else if(check.equals("name"))
+            {
+                for(book i:books)
+                {
+                    System.out.println(i.title);
+                }
+            }
+            else {
+                System.out.print("Enter the valid requiremet field");
+            }
+    }
+    
+}
