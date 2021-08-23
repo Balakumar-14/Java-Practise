@@ -1,0 +1,39 @@
+import java.util.Scanner;
+public class watch {
+    static int j=0;
+    public static boolean scheck(int store[],int n, int sum)
+    {
+        for(int i=0;i<n;i++)
+        {
+            if(sum==store[i]){
+                return true;
+            }
+        }
+        store[j++]=sum;
+        return false;
+    }
+    public static boolean check(int a[], int n){
+        int i,sum=0;
+        int store[]=new int[n];
+        for(i=0;i<n;i++)
+        {
+            sum+=a[i];
+            if(a[i]==0||sum==0||scheck(store,n,sum))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static void main(String[] args){
+        Scanner read= new Scanner(System.in);
+        int n=Integer.valueOf(read.nextLine());
+        int a[]=new int[n];
+        for(int i=0;i<n;i++)
+        {
+            a[i]=Integer.valueOf(read.nextLine());
+        }
+        if(check(a,n)) System.out.println("Possible");
+        else System.out.println("Impossible");
+    }
+}
