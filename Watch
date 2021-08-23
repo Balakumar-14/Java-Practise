@@ -1,0 +1,54 @@
+public class watch {
+    public static class Clock{
+        private ClockHand seconds;
+    private ClockHand minutes;
+    private ClockHand hours;
+    public Clock(){
+        this.seconds= new ClockHand(60);
+    this.minutes= new ClockHand(60);
+    this.hours= new ClockHand(24);
+    }
+    public void advance(){
+        this.seconds.advance();
+        if(this.seconds.value()==0)
+        {
+            this.minutes.advance();
+            if (this.minutes.value() == 0) {
+                this.hours.advance();
+            }
+        }
+    }
+    public String toString() {
+        return hours + ":" + minutes + ":" + seconds;
+    }
+    }
+    public static class ClockHand{
+        public int value;
+        public int limit;
+        public ClockHand(int val)
+        {
+            this.value=0;
+            this.limit=val;
+        }
+        public void advance(){
+            this.value+=1;
+            if(this.value==this.limit){
+                this.value=0;
+            }
+        }
+        public int value(){
+            return this.value;
+        }
+        public String toString(){
+            return " "+this.value;
+        }
+    }
+    public static void main(String args[]) {
+      Clock clock = new Clock();
+
+while (true) {
+    System.out.println(clock);
+    clock.advance();
+}
+    }
+}
