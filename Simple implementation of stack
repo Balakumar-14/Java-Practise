@@ -1,0 +1,51 @@
+import java.util.ArrayList;
+public class MyClass {
+   public static class Stack{
+       ArrayList<String> s=new ArrayList<>();
+       int top=-1;
+       public boolean isEmpty(){
+           if(top==-1){
+               return true;
+           }
+           else{
+               return false;
+           }
+       }
+       public ArrayList<String> values(){
+           return s; 
+       }
+       public void add(String val)
+       {
+           s.add(val);
+           top++;
+       }
+       public String take(){
+           String toremove=s.get(top);
+           s.remove(top);
+           top--;
+           return toremove;
+       }
+   }
+   public static void main(String[] args){
+       Stack s = new Stack();
+        System.out.println(s.isEmpty());
+        System.out.println(s.values());
+        s.add("Value");
+        System.out.println(s.isEmpty());
+        System.out.println(s.values());
+        String taken = s.take();
+        System.out.println(s.isEmpty());
+        System.out.println(s.values());
+        System.out.println(taken);
+        s.add("1");
+        s.add("2");
+        s.add("3");
+        s.add("4");
+        s.add("5");
+
+        while (!s.isEmpty()) {
+            System.out.println(s.take());
+        }
+
+   }
+}
