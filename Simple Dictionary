@@ -1,0 +1,69 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+public class MyClass {
+    public static class userinterface{
+        Scanner scanner;
+        ArrayList <dictionary> dicts = new ArrayList<>();
+        public userinterface(Scanner scanner){
+            this.scanner=scanner;
+        }
+        public void start(){
+            while(true){
+            System.out.print("Command: ");
+            String option=scanner.nextLine();
+            switch(option){
+                case "add":
+                    System.out.print("Word: ");
+                    String word=scanner.nextLine();
+                    System.out.print("Translation: ");
+                    String trans=scanner.nextLine();
+                    //if(!(dicts.contains(word))){
+                        dictionary dict= new dictionary(word,trans);
+                        dicts.add(dict);
+                    //}
+                    break;
+                case "search":
+                    this.search();
+                    break;
+                case "end":
+                    System.out.println("Bye bye!");
+                    return;
+                default:
+                    System.out.println("Unknown command");
+            }
+            }
+        }
+        public void search(){
+                System.out.print("To be translated: ");
+                String word=scanner.nextLine();
+                for(int i=0;i<dicts.size();i++){
+                    dictionary dict=dicts.get(i);
+                    //System.out.println(word+"--"+dict.getword());
+                    if(word.equals(dict.getword())){
+                    System.out.println("Translation:"+dict.getTrans());
+                    return;
+                }
+                }
+                System.out.println("Word "+word+" not found");
+        }
+    }
+    public static class dictionary{
+        String word;
+        String trans;
+        public dictionary(String word,String trans){
+            this.word=word;
+            this.trans=trans;
+        }
+        public String getTrans(){
+            return this.trans;
+        }
+        public String getword(){
+            return this.word;
+        }
+    }
+    public static void main(String[] args){
+        Scanner read= new Scanner(System.in);
+        userinterface UI= new userinterface(read);
+        UI.start();
+    }
+}
