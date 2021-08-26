@@ -1,0 +1,106 @@
+import java.util.ArrayList;
+public class MyClass {
+    public static class Hold{
+        ArrayList<Suitcase> suitcases=new ArrayList<>();
+        int maxweight;
+        int totalweight=0;
+        public Hold(int maxweight){
+            this.maxweight=maxweight;
+        }
+        public void addSuitcase(Suitcase suitcase){
+            this.totalweight+=suitcase.totalWeight();
+            suitcases.add(suitcase);
+        }
+        public String toString(){
+            return suitcases.size()+" suitcases ( "+this.totalweight+" )";
+        }
+        public void printItems(){
+            for(int i=0;i<suitcases.size();i++){
+                (suitcases.get(i)).printItems();
+            }
+        }
+    }
+    public static class Suitcase{
+        ArrayList <Item> items=new ArrayList<>();
+        int maxweight;
+        public Suitcase(int maxweight){
+            this.maxweight=maxweight;
+        }
+        public void addItem(Item item){
+            int sum=totalWeight();
+            int sum1=sum+item.getWeight();
+            if(sum1<maxweight){
+                items.add(item);
+            }
+        }
+        public void printItems(){
+            for(int i=0;i<items.size();i++)
+            {
+                System.out.println((items.get(i)).getName()+"( "+(items.get(i)).getWeight()+" kg )");
+            }
+        }
+        public String toString(){
+            int sum=totalWeight();
+            if(items.size()>0){
+            return items.size()+" items "+"( "+sum+ " kg )";}
+            else{
+                return "Zero items "+"( "+sum+ " kg )";
+            }
+        }
+        public int totalWeight(){
+            int sum=0;
+            for(int i=0;i<items.size();i++)
+            {
+                sum+=(items.get(i)).getWeight();
+            }
+            return sum;
+        }
+        public Item heaviestItem(){
+            Item dup=(items.get(0));
+            for(int i=1;i<items.size();i++)
+            {
+                if(dup.getWeight()<(items.get(i)).getWeight()){
+                    dup=(items.get(i));
+                }
+            }
+            return dup;
+        }
+    }
+    public static class Item{
+        String name;
+        int weight;
+        public Item(String name, int weight)
+        {
+            this.name=name;
+            this.weight=weight;
+        }
+        public String getName(){
+            return this.name;
+        }
+        public int getWeight(){
+            return this.weight;
+        }
+        public String toString(){
+            return this.name+"( "+this.weight+" kg )";
+        }
+    }
+    public static void main(String[] args) {
+        Item book = new Item("Lord of the rings", 2);
+        Item phone = new Item("Nokia 3210", 1);
+        Item brick = new Item("brick", 4);
+
+        Suitcase adasCase = new Suitcase(10);
+        adasCase.addItem(book);
+        adasCase.addItem(phone);
+
+        Suitcase pekkasCase = new Suitcase(10);
+        pekkasCase.addItem(brick);
+
+        Hold hold = new Hold(1000);
+        hold.addSuitcase(adasCase);
+        hold.addSuitcase(pekkasCase);
+
+        System.out.println("The suitcases in the hold contain the following items:");
+        hold.printItems();
+    }
+}
