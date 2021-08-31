@@ -1,0 +1,141 @@
+import java.util.Scanner;
+import java.util.ArrayList;
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+public class MyClass {
+    
+    
+    
+    
+    public class CalculatorTest {
+
+    @Test
+    public void calculatorInitialValueZero() {
+        Calculator calculator = new Calculator();
+        assertEquals(0, calculator.getValue());
+    }
+
+    @Test
+    public void valueFiveWhenFiveAdded() {
+        Calculator calculator = new Calculator();
+        calculator.add(5);
+        assertEquals(5, calculator.getValue());
+    }
+
+    @Test
+    public void valueMinusTwoWhenTwoSubstracted() {
+        Calculator calculator = new Calculator();
+        calculator.subtract(2);
+        assertEquals(-2, calculator.getValue());
+    }
+}
+
+
+
+
+    public static class Tasks{
+        ArrayList <String> tasks;
+        public Tasks(){
+            tasks= new ArrayList<String>();
+        }
+        public void add(String tasktoadd){
+            tasks.add(tasktoadd);
+        }
+        public void list(){
+            for(int i=0;i<tasks.size();i++){
+                System.out.println((i+1)+":"+tasks.get(i));
+            }
+        }
+        public void remove(int taskid){
+            System.out.println(tasks.get(taskid));
+            tasks.remove(taskid);
+        }
+    }
+    public static class userinterface{
+        Tasks tasks;
+        Scanner scanner;
+        public userinterface(Scanner scanner,Tasks tasks){
+            this.scanner=scanner;
+            this.tasks=tasks;
+        }
+        public void start(){
+            
+            while(true){
+                System.out.print("Command: ");
+                String command=scanner.nextLine();
+                switch(command){
+                    case "add":
+                        this.add();
+                        break;
+                    case "list":
+                        tasks.list();
+                        break;
+                    case "completed":
+                        this.completed();
+                        break;
+                    case "stop":
+                        return;
+                    default:
+                        System.out.println("Enter the valid comman:");
+                }
+            }
+        }
+        public void add(){
+            System.out.print("Task: ");
+            String tasktoadd=scanner.nextLine();
+            tasks.add(tasktoadd);
+        }
+        public void completed(){
+            System.out.print("Which task was completed? ");
+            int taskid;
+            taskid=Integer.valueOf(scanner.nextLine());
+            tasks.remove(taskid-1);
+        }
+    }
+    public class Calculator {
+
+    private int value;
+
+    public Calculator() {
+        this.value = 0;
+    }
+
+    public void add(int number) {
+        this.value = this.value + number;
+    }
+
+    public void subtract(int number) {
+        this.value = this.value + number;
+    }
+
+    public int getValue() {
+        return this.value;
+    }
+}
+    public static void main(String args[]) {
+      String input = "one\n" + "two\n"  +
+                "three\n" + "four\n" +
+                "five\n" + "one\n"  +
+                "six\n";
+
+Scanner reader = new Scanner(input);
+
+ArrayList<String> read = new ArrayList<>();
+
+while (true) {
+    System.out.println("Enter an input: ");
+    String line = reader.nextLine();
+    if (read.contains(line) {
+        break;
+    }
+
+    read.add(line);
+}
+
+System.out.println("Thank you!");
+
+if (read.contains("six")) {
+    System.out.println("A value that should not have been added to the group was added to it.");
+}
+    }
+}
