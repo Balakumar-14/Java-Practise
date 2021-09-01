@@ -1,0 +1,84 @@
+import java.util.Scanner;
+import java.lang.Math;
+public class MyClass {
+    public static class container{
+        int amount=0;
+        int limit;
+        public container(int limit){
+            this.limit=limit;
+        }
+        public void add(int newamount){
+            if( ( (this.amount+newamount)<=this.limit )&&newamount>0){
+                this.amount+=newamount;
+            }
+            else if(newamount>0){
+                this.amount=this.limit;
+            }
+            else{
+                return;
+            }
+        }
+        public void minus(int newamount){
+            if(this.amount<newamount){
+                this.amount=0;
+                return;
+            }
+            this.amount-=newamount;
+        }
+        public int amount(){
+            return this.amount;
+        }
+    }
+    public static class userinterface{
+        private Scanner scanner;
+        private container c1;
+        private container c2;
+        public userinterface(Scanner scanner,container c1,container c2){
+            this.scanner=scanner;
+            this.c1=c1;
+            this.c2=c2;
+        }
+        public void start(){
+            while(true){
+                System.out.println("First: "+c1.amount()+"/"+c1.limit);
+                System.out.println("Second: "+c2.amount()+"/"+c2.limit);
+                String command=scanner.nextLine();
+                String[] parts=command.split(" ");
+                int value=Integer.valueOf(parts[1]);
+                switch(parts[0]){
+                    case "add":
+                        c1.add(Integer.valueOf(parts[1]));
+                        break;
+                    case "move":
+                        if((c1.amount()>0)&&(value>0)){
+                            if((c1.amount()<value)){
+                                int c2add=Math.abs(c1.amount()-value);
+                                c1.minus(value);
+                                c2.add(c2add);
+                            }
+                            else{
+                                c1.minus(value);
+                                c2.add(value);
+                            }
+                        }
+                        break;
+                    case "remove":
+                        c2.minus(value);
+                        break;
+                    case "quit":
+                        return;
+                    default:
+                        System.out.println("Enter the valid command!!");
+                        
+                }
+            }
+        }
+    }
+    public static void main(String args[]) {
+        Scanner scanner=new Scanner(System.in);
+        container c1=new container(100);
+        container c2=new container(100);
+      userinterface ui=new userinterface(scanner,c1,c2);
+      ui.start();
+    }
+}
