@@ -1,0 +1,152 @@
+package inheritance;
+import java.util.ArrayList;
+public class Warehouse {
+	public static class WareHouse{
+		double capacity;
+		double balance;
+		Changehistory changehis= new Changehistory();
+		public WareHouse(double capacity) {
+			if(capacity>0) {
+				this.capacity=capacity;
+				changehis.add(capacity);
+			}
+			else {
+				this.capacity=0;
+				this.balance=0;
+			}
+		}
+		public double getBalance() {
+			return this.balance;
+		}
+		public double getCapacity() {
+			return this.capacity;
+		}
+		public String howMuchSpaceLeft() {
+			String strDouble = String.format("%.1f",this.capacity-this.balance);
+			return (strDouble);
+		}
+		public void addToWarehouse(double amount) {
+			this.balance+=amount;
+			changehis.add(Double.valueOf(this.getBalance()));
+		}
+		public double takeFromWarehouse(double amount) {
+			if(amount<0) {
+				return 0;
+			}
+			else if(amount>this.balance){
+				this.balance=0;
+				changehis.add(Double.valueOf(this.getBalance()));
+				return this.balance;
+			}
+			else {
+				double temp;
+				temp=this.balance-amount;
+				this.balance-=amount;
+				changehis.add(Double.valueOf(this.getBalance()));
+				return this.balance;
+			}
+		}
+		public String toString() {
+			return "balance = "+this.getBalance()+","+" space left "+this.howMuchSpaceLeft();
+		}
+	}
+	public static class ProductWarehouse extends WareHouse{
+		String productName;
+		public ProductWarehouse(String productName, double capacity) {
+			super(capacity);
+			this.productName=productName;
+		}
+		public String getName() {
+			return this.productName;
+		}
+		public void setName(String newName) {
+			this.productName=newName;
+		}
+		public String toString() {
+			return this.getName()+":"+super.toString();
+		}
+	}
+	public static class Changehistory{
+		ArrayList<Double> history;
+		public Changehistory() {
+			this.history = new ArrayList<Double>();
+		}
+		public void add(double status) {
+			this.history.add(status);
+		}
+		public void clear() {
+			this.history.clear();
+		}
+		public double maxValue() {
+			double max=0;
+			for(Double value:history) {
+				if(value>max) {
+					max=value;
+				}
+			}
+			return max;
+		}
+		public double minValue() {
+			double min=history.get(0);
+			for(Double value:history) {
+				if(value<min) {
+					min=value;
+				}
+			}
+			return min;
+		}
+		public double average() {
+			double sum=0;
+			int count=0;
+			for(Double value:history) {
+				sum+=value;
+				count++;
+			}
+			return (sum/count);
+		}
+		public String print() {
+			String str="[";
+			for(Double value:this.history) {
+				str=str+value+",";
+			}
+			str=str+"]";
+			return str;
+		}
+	}
+	public static class ProductWarehouseWithHistory extends ProductWarehouse{
+		public ProductWarehouseWithHistory(String productName, double capacity, double initialBalance) {
+			super(productName,capacity);
+			this.balance=initialBalance;
+		}
+		public String History() {
+			return(changehis.print());
+		}
+		public void printAnalysis() {
+			System.out.println("Product: "+this.getName());
+			System.out.println("Present balance:"+this.getBalance());
+			System.out.println("History: "+changehis.print());
+			System.out.println("Largest amount of product: "+changehis.maxValue());
+			System.out.println("Smallest amount of product: "+changehis.minValue());
+			System.out.println("Average: "+String.format("%.1f",changehis.average()));
+		}
+	}
+	public static void main(String[] args) {
+		ProductWarehouseWithHistory juice = new ProductWarehouseWithHistory("Juice", 1000.0, 1000.0);
+		juice.takeFromWarehouse(11.3);
+		juice.addToWarehouse(1.0);
+		juice.printAnalysis();
+	}
+}
+
+
+
+
+
+/////////////////////////////////////////////////////
+Input/output:
+Product: Juice
+Present balance:989.7
+History: [1000.0,988.7,989.7,]
+Largest amount of product: 1000.0
+Smallest amount of product: 988.7
+Average: 992.8
