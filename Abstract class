@@ -1,0 +1,164 @@
+package inheritance;
+import java.util.ArrayList;
+import java.util.Objects;
+public class Abstract {
+	public static class Item{
+		String name;
+		int weight;
+		public Item(String name, int weight)
+		{
+			this.name =name;
+			this.weight =weight;
+		}
+		public Item(String name) {
+			this.name=name;
+		}
+		public String getname() {
+			return this.name;
+		}
+		public int getweight() {
+			return this.weight;
+		}
+		@Override
+		public int hashCode() {
+			return Objects.hash(name, weight);
+		}
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null || getClass() != obj.getClass())
+				return false;
+			Item other = (Item) obj;
+			return Objects.equals(name, other.name);
+		}
+		public boolean equalss(Item item) {
+			if(this.name.equals(item.getname())) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		public int hashCodee()
+		{
+		    final int PRIME = 31;
+		    int result = 1;
+		    result = PRIME * result + getweight();
+		    return result;
+		}
+		
+	}
+	public static abstract class Box {
+		ArrayList<Item> items=new ArrayList<>();
+	    public abstract void add(Item item);
+
+	    public void add(ArrayList<Item> items) {
+	        for (Item item : items) {
+	            Box.this.add(item);
+	        }
+	    }
+	    
+	    public abstract boolean isInBox(Item item);
+	}
+	public static class BoxWithMaxWeight extends Box{
+		int capacity;
+		int totalweight=0;
+		public BoxWithMaxWeight(int capacity) {
+			this.capacity=capacity;
+		}
+		public void add(Item item) {
+			if(totalweight<capacity) {
+				totalweight+=item.getweight();
+				this.items.add(item);
+			}
+		}
+		public boolean isInBox(Item item) {
+			for(Item temp:items) {
+				if(temp.equals(item))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+	public static class OneItemBox extends Box{
+		static int flag;
+		public OneItemBox() {
+			flag=0;
+		}
+		public void add(Item item) {
+			if(flag==0) {
+				flag=1;
+				this.items.add(item);
+			}
+		}
+		public boolean isInBox(Item item) {
+			for(Item temp:items) {
+				if(temp.equals(item))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+	public static class MisplacingBox extends Box{
+		public MisplacingBox() {
+			
+		}
+		public void add(Item item) {
+			this.items.add(item);
+		}
+		public boolean isInBox(Item item) {
+			return false;
+		}
+	}
+	public static void main(String[] args) {
+		BoxWithMaxWeight coffeeBox = new BoxWithMaxWeight(10);
+		coffeeBox.add(new Item("Saludo", 5));
+		coffeeBox.add(new Item("Pirkka", 5));
+		coffeeBox.add(new Item("Kopi Luwak", 5));
+
+		System.out.println(coffeeBox.isInBox(new Item("Saludo")));
+		System.out.println(coffeeBox.isInBox(new Item("Pirkka")));
+		System.out.println(coffeeBox.isInBox(new Item("Kopi Luwak")));
+		System.out.println("--------------------------------------1");
+		System.out.println("Hashcode of coffeebox "+ coffeeBox.hashCode()+"\n");
+		
+		OneItemBox box = new OneItemBox();
+		box.add(new Item("Saludo", 5));
+		box.add(new Item("Pirkka", 5));
+
+		System.out.println(box.isInBox(new Item("Saludo")));
+		System.out.println(box.isInBox(new Item("Pirkka")));
+		System.out.println("--------------------------------------2");
+		System.out.println("Hashcode of box "+ box.hashCode()+"\n");
+		
+		MisplacingBox boxmis = new MisplacingBox();
+		boxmis.add(new Item("Saludo", 5));
+		boxmis.add(new Item("Pirkka", 5));
+
+		System.out.println(boxmis.isInBox(new Item("Saludo")));
+		System.out.println(boxmis.isInBox(new Item("Pirkka")));
+		System.out.println("Hashcode of misplacingbox "+ boxmis.hashCode()+"\n");		
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+Sample input/output:
+true
+true
+false
+--------------------------------------1
+Hashcode of coffeebox 1072408673
+
+true
+false
+--------------------------------------2
+Hashcode of box 1867083167
+
+false
+false
+Hashcode of misplacingbox 284720968
