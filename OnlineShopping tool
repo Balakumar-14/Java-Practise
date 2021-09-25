@@ -1,0 +1,183 @@
+package inheritance;
+import java.util.*;
+import java.util.HashMap;
+import java.util.Scanner;
+public class Onlineshop {
+	public static class Store {
+	    private Warehouse warehouse;
+	    private Scanner scanner;
+
+	    public Store(Warehouse warehouse, Scanner scanner) {
+	        this.warehouse = warehouse;
+	        this.scanner = scanner;
+	    }
+
+	    // the method that handles the customers visit to the store.
+	    public void shop(String customer) {
+	        ShoppingCart cart = new ShoppingCart();
+	        System.out.println("Welcome to the store " + customer);
+	        System.out.println("our selection:");
+
+	        while (true) {
+	        	for (String product : this.warehouse.products()) {
+		            System.out.println(product);
+		        }
+	            System.out.print("What to put in the cart (press enter to go to the register): ");
+	            String product = scanner.nextLine();
+	            if (product.isEmpty()) {
+	                break;
+	            }
+	            cart.add(product, this.warehouse.products.get(product));
+	            this.warehouse.take(product);
+	        }
+	        System.out.println("your shoppingcart contents:");
+	        cart.print(warehouse);
+	        System.out.println("Total  :  Rs." + cart.price());
+	    }
+	}
+	public static class Item{
+		String product; int qty; int unitPrice;
+		public Item(String product, int qty, int unitPrice) {
+			this.product=product;
+			this.qty=qty;
+			this.unitPrice=unitPrice;
+		}
+		public int price() {
+			return this.unitPrice*this.qty;
+		}
+		public void increaseQuantity(){
+			this.qty=this.qty+1;
+		}
+		public String toString() {
+			return this.product+" : "+this.qty;
+		}
+	}
+	public static class Warehouse{
+		Map<String, Integer> products=new HashMap<>();
+		int stock;
+		public void addProduct(String product, int price, int stock) {
+			this.products.put(product,price);
+			this.stock=stock;
+		}
+		public int price(String product) {
+			if(products.containsKey(product))
+			{
+				return products.get(product);
+			}
+			return -99;
+		}
+		public int stock(String product) {
+			if(products.containsKey(product))
+			{
+				return this.stock;
+			}
+			return 0;
+		}
+		public boolean take(String product) {
+			if(products.containsKey(product)&&this.stock>0)
+			{
+				this.stock--;
+				return true;
+			}
+			return false;
+		}
+		public Set<String> products(){
+			return this.products.keySet();
+		}
+	}
+	public static class ShoppingCart{
+		Map<String, Integer> products;
+		public ShoppingCart() {
+			this.products=new HashMap<>();
+		}
+		public void add(String product, int price) {
+			if(!this.products.containsKey(product)) {
+				products.put(product, price);
+			}
+			else if(this.products.containsKey(product)){
+				int temp;
+				temp=this.products.get(product);
+				temp+=price;
+				products.put(product, temp);
+			}
+		}
+		public int price() {
+			int totalsum=0;
+			for(String i:this.products.keySet()) {
+				totalsum+=this.products.get(i);
+			}
+			return totalsum;
+		}
+		public void print(Warehouse warehouse) {
+			int x=1;
+			for(String product:this.products.keySet()) {
+				warehouse.products();
+				System.out.println((x++)+" "+product+" : " + (this.products.get(product)/warehouse.price(product)) +"*"+warehouse.price(product));
+			}
+		}
+	}
+	public static void main(String[] args) {		
+		Warehouse warehouse = new Warehouse();
+	    warehouse.addProduct("coffee", 5, 10);
+	    warehouse.addProduct("milk", 3, 20);
+	    warehouse.addProduct("cream", 2, 55);
+	    warehouse.addProduct("bread", 7, 8);
+	    Scanner scanner = new Scanner(System.in);
+	    Store store = new Store(warehouse, scanner);
+	    store.shop("John");
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+Sample input and output:
+Welcome to the store John
+our selection:
+bread
+coffee
+milk
+cream
+What to put in the cart (press enter to go to the register): bread
+bread
+coffee
+milk
+cream
+What to put in the cart (press enter to go to the register): coffee
+bread
+coffee
+milk
+cream
+What to put in the cart (press enter to go to the register): bread
+bread
+coffee
+milk
+cream
+What to put in the cart (press enter to go to the register): milk
+bread
+coffee
+milk
+cream
+What to put in the cart (press enter to go to the register): milk
+bread
+coffee
+milk
+cream
+What to put in the cart (press enter to go to the register): cream
+bread
+coffee
+milk
+cream
+What to put in the cart (press enter to go to the register): milk
+bread
+coffee
+milk
+cream
+What to put in the cart (press enter to go to the register): 
+your shoppingcart contents:
+1 bread : 2*7
+2 coffee : 1*5
+3 milk : 3*3
+4 cream : 1*2
+total  : Rs.30
+
+You can create user interface for choosing either adding entry or shopping order details using user interface class.
