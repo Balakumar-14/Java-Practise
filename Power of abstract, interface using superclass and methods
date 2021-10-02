@@ -1,0 +1,100 @@
+package inheritance;
+
+public class Animals {
+	public static abstract class Animal{
+		String name;
+		public Animal(String name) {
+			this.name=name;
+		}
+		public abstract void eat();
+		public abstract void sleep();
+		public String getName() {
+			return this.name;
+		}
+	}
+	public static class Dog extends Animal implements NoiseCapable{
+		public Dog(String name) {
+			super(name);
+		}
+		public Dog(){
+			super("Dog");
+		}
+		public void eat() {
+			System.out.println(name+" eats");
+		}
+		public void sleep() {
+			System.out.println(name+" sleeps");
+		}
+		public void bark() {
+			System.out.println(name+" barks");
+		}
+		public void makeNoise() {
+			this.bark();
+		}
+	}
+	public static class Cat extends Animal implements NoiseCapable{
+		public Cat(String name) {
+			super(name);
+		}
+		public Cat(){
+			super("Cat");
+		}
+		public void eat() {
+			System.out.println(name+" eats");
+		}
+		public void sleep() {
+			System.out.println(name+" sleeps");
+		}
+		public void purr() {
+			System.out.println(name+" purrs");
+		}
+		public void makeNoise() {
+			this.purr();
+		}
+	}
+	public static interface NoiseCapable{
+		public abstract void makeNoise();
+	}
+	public static void main(String[] args) {
+		Dog dog = new Dog();
+		dog.bark();
+		dog.eat();
+
+		Dog fido = new Dog("Fido");
+		fido.bark();
+		System.out.println("\n");
+		
+		Cat cat = new Cat();
+		cat.purr();
+		cat.eat();
+
+		Cat garfield = new Cat("Garfield");
+		garfield.purr();
+		System.out.println("\n");
+		
+		NoiseCapable dog1 = new Dog();
+		dog1.makeNoise();
+		NoiseCapable cat1 = new Cat("Garfield");
+		cat1.makeNoise();
+		Cat c = (Cat) cat1;
+		c.purr();
+	}
+
+}
+
+///////////////////////////////////////////////
+Sample input/output:
+
+Dog barks
+Dog eats
+Fido barks
+
+
+Cat purrs
+Cat eats
+Garfield purrs
+
+
+Dog barks
+Garfield purrs
+Garfield purrs
